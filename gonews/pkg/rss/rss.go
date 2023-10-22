@@ -29,7 +29,7 @@ type config struct {
 }
 
 func GetNews(chanPosts chan<- []models.Post, chanErrs chan<- error) error {
-	file, err := os.Open("./config.json")
+	file, err := os.Open("./cmd/config.json")
 	if err != nil {
 		return err
 	}

@@ -16,6 +16,11 @@ type server struct {
 	api *api.API
 }
 
+// const (
+// 	connstr = "postgres://brannon:enterme@db_news:5432/gonews"
+// 	port    = ":8083"
+// )
+
 func main() {
 	var srv server
 
@@ -44,7 +49,7 @@ func main() {
 
 func goDotEnvVariable(key string) string {
 
-	err := godotenv.Load(".env")
+	err := godotenv.Load("./cmd/.env")
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}

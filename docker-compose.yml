@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  gonews:
+    build: ./gonews
+    command: ./gonews
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db_news
+
+  comments:
+    build: ./comments
+    command: ./comments
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db_news
+
+  censor:
+    build: ./censor
+    command: ./censor
+    ports:
+      - "8083:8083"
+    depends_on:
+      - db_news
+
+  gateway:
+    build: ./gateway
+    command: ./gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_news
+      - gonews
+      - comments
+      - censor
+
+  db_news:
+    image: postgres:14.9
+    restart: always
+    environment:
+      POSTGRES_DB: "news"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      
+    ports:
+      - "54320:5432"
